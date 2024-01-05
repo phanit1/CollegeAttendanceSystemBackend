@@ -1,0 +1,6 @@
+Attendance Post Format
+{
+    "PinNumber": "5",
+    "AttendanceStatus": false,
+    "Date": "2024-01-04"
+}
