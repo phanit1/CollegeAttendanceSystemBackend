@@ -7,7 +7,7 @@ const twilio = require('twilio');
 //imported xlsx
 const reader = require('xlsx')
 // Reading our students data file 
-const file = reader.readFile('./StudentsData.xlsx')
+const file = reader.readFile('StudentsData.xlsx')
 
 //storing excel file data into variable
 let data = []
