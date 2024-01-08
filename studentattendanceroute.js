@@ -6,19 +6,37 @@ const router = express.Router();
 const twilio = require('twilio');
 //imported xlsx
 const reader = require('xlsx')
-// Reading our students data file 
-const file = reader.readFile('StudentsData.xlsx')
+//imported axios
+const axios = require('axios');
+//Google Drive file URL
+const googleDriveExcelFileUrl = 'https://drive.google.com/uc?id=1ogMbBmMAvr_O-CasAAuCUt7yTp3ynY_T';
 
-//storing excel file data into variable
 let data = []
-const sheets = file.SheetNames
-for (let i = 0; i < sheets.length; i++) {
-    const temp = reader.utils.sheet_to_json(
-        file.Sheets[file.SheetNames[i]])
-    temp.forEach((res) => {
-        data.push(res)
-    })
+// Function to fetch and read the Excel file
+async function readExcelFile() {
+    try {
+        // Fetch the Excel file from Google Drive
+        const response = await axios.get(googleDriveExcelFileUrl, { responseType: 'arraybuffer' });
+        // Parse the Excel file
+        const file = reader.read(response.data, { type: 'buffer' });
+        //storing excel file data into variable
+        const sheets = file.SheetNames
+        for (let i = 0; i < sheets.length; i++) {
+            const temp = reader.utils.sheet_to_json(
+                file.Sheets[file.SheetNames[i]])
+            temp.forEach((res) => {
+                data.push(res)
+            })
+        }
+        console.log(data,"data")
+    } catch (error) {
+        console.error('Error reading Excel file:', error);
+    }
 }
+
+// Call the function to fetch and read the Excel file
+readExcelFile();
+
 
 //uses schemas by these line
 const studentsdata = require('./students');
