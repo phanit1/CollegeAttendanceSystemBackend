@@ -12,11 +12,13 @@ const cors = require("cors")
 // //to use router we need to import
 // const authRouters = require('./studentroute')
 const authRouters = require('./studentattendanceroute')
+const authRouters1 = require('./userroute')
 
 app.use(cors())
 app.use(bodyParser.json())
 // app.use(authRouters)
 app.use(authRouters)
+app.use(authRouters1)
 
 mongoose.connect(url)
 
