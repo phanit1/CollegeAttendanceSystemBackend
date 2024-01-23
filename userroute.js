@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router();
 const userdata = require('./user');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'your-secret-key'; // Replace with a strong secret key
+const SECRET_KEY = 'JSonWebTOKen';
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
