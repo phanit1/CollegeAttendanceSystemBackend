@@ -3,6 +3,8 @@ const express = require('express')
 //created a router
 const router = express.Router();
 const userdata = require('./user');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your-secret-key'; // Replace with a strong secret key
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -11,7 +13,8 @@ router.post('/login', async (req, res) => {
         const user = await userdata.findOne({ username, password });
 
         if (user) {
-            res.json({ role: user.role });
+            const token = jwt.sign({ sub: user.id, username: user.username, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
+            res.json({ username: user.username, role: user.role, token: token });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }

@@ -14,6 +14,8 @@ const cors = require("cors")
 const authRouters = require('./studentattendanceroute')
 const authRouters1 = require('./userroute')
 
+const PORT = process.env.PORT || 3000;
+
 app.use(cors())
 app.use(bodyParser.json())
 // app.use(authRouters)
@@ -33,6 +35,6 @@ mongoose.connection.on("error", (err) => {
 })
 
 // connecting port 
-app.listen(3000 ,() => {
+app.listen(PORT ,() => {
     console.log("server running")
 })
