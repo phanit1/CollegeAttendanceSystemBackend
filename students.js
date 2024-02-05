@@ -9,6 +9,10 @@ const student = mongoose.Schema({
         type : String,
         required : true,
     },
+    CollegeCode : {
+        type : Number,
+        required : true,
+    },
     Department : {
         type : String,
         required : true,

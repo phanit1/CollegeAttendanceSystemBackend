@@ -159,6 +159,24 @@ router.get('/students/:year', async(req,res) => {
     }
 })
 
+// get request to get the students by collegecode from db
+router.get('/students/:collegecode', async(req,res) => {
+    try {
+        const collegecodestudents = await studentsdata.find({CollegeCode: req.params.collegecode})
+        if(collegecodestudents.length > 0) {
+            console.log(collegecodestudents)
+            return res.status(200).send(collegecodestudents)
+        }
+        else {
+            return res.status(404).send("Student Not Found in "+req.params.year)
+        }
+    }
+    catch(error) { // if database error comes
+        console.log(error)
+        return res.status(500).send(error)
+    }
+})
+
 // get request to get the students by department from db
 router.get('/students/:department', async(req,res) => {
     try {
