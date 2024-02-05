@@ -28,7 +28,7 @@ async function readExcelFile() {
                 data.push(res)
             })
         }
-        console.log(data,"data")
+        console.log(data, "data")
     } catch (error) {
         console.error('Error reading Excel file:', error);
     }
@@ -48,6 +48,43 @@ const accountSid = 'AC0ca62b75da323655d6446a18295e6f59';
 const authToken = 'aa82e86cc1e684837199e0a29304a040';
 const twilioPhoneNumber = '+1 720 262 2359';
 const client = twilio(accountSid, authToken);
+
+// get request to show all the requests
+router.get('/', async (req, res) => {
+    try {
+        return res.status(200).send("<h1>Welcome This is Student Data API</h1> <br>" +
+            "<h2>To add a new student, use /poststudent</h2><br>" +
+            "<h2>To add multiple students, use /poststudents</h2><br>" +
+            "<h2>To update student information, use /students/:pinnumber with a PUT request</h2><br>" +
+            "<h2>To delete a student, use /students/:pinnumber with a DELETE request</h2><br>" +
+            "<h2>If you want to get all students data, use /students</h2><br>" +
+            "<h2>To get students by year, use /students/:year</h2><br>" +
+            "<h2>To get students by college code, use /students/:collegecode</h2><br>" +
+            "<h2>To get students by department, use /students/:department</h2><br>" +
+            "<h2>To get students by year, section, and department, use /students/:year/:section/:department</h2><br>" +
+            "<h2>To record students' attendance, use /poststudentsattendance</h2><br>" +
+            "<h2>To record attendance for a specific student, use /poststudentattendance</h2><br>" +
+            "<h2>To get overall student attendance, use /studentattendance</h2><br>" +
+            "<h2>To get attendance for a specific student, use /studentattendance/:pinnumber</h2><br>" +
+            "<h2>To generate attendance report for a specific student, use /poststudentattendancereport/:pinnumber</h2><br>" +
+            "<h2>To get attendance report for a specific student, use /studentattendancereport/:pinnumber</h2><br>" +
+            "<h2>To update attendance report for a specific student, use /putstudentattendancereport/:pinnumber</h2><br>"
+        )
+        // const alldetails = await studentsdata.find()
+        // if(alldetails.length > 0) { // if there are only details
+        //     // console.log(alldetails)
+        //     return res.status(200).send(alldetails)
+        // }
+        // else { // if there are no details
+        //     return res.status(404).send("No Data Found")
+        // }
+    }
+    catch (error) { // if database error comes
+        console.log(error)
+        return res.status(500).send(error)
+    }
+})
+
 
 
 //post request to post single student data to db
@@ -73,11 +110,11 @@ router.post('/poststudent', async (req, res) => {
 router.post('/poststudents', async (req, res) => {
     try {
         for (let i = 0; i < data.length; i++) {
-                const user = new studentsdata(data[i]);
-                await user.save();
-                console.log(user)
-            }
-            return res.status(200).send("Successfully added")
+            const user = new studentsdata(data[i]);
+            await user.save();
+            console.log(user)
+        }
+        return res.status(200).send("Successfully added")
     }
     catch (error) { // if database error comes
         console.log(error)
@@ -127,7 +164,7 @@ router.delete('/students/:pinnumber', async (req, res) => {
 router.get('/students', async (req, res) => {
     try {
         const alldetails = await studentsdata.find()
-        if(alldetails.length > 0) { // if there are only details
+        if (alldetails.length > 0) { // if there are only details
             // console.log(alldetails)
             return res.status(200).send(alldetails)
         }
@@ -142,64 +179,64 @@ router.get('/students', async (req, res) => {
 })
 
 // get request to get the students by year from db
-router.get('/students/:year', async(req,res) => {
+router.get('/students/:year', async (req, res) => {
     try {
-        const yearstudents = await studentsdata.find({Year: req.params.year})
-        if(yearstudents.length > 0) {
+        const yearstudents = await studentsdata.find({ Year: req.params.year })
+        if (yearstudents.length > 0) {
             console.log(yearstudents)
             return res.status(200).send(yearstudents)
         }
         else {
-            return res.status(404).send("Student Not Found in "+req.params.year)
+            return res.status(404).send("Student Searched by Year Not Found in " + req.params.year)
         }
     }
-    catch(error) { // if database error comes
+    catch (error) { // if database error comes
         console.log(error)
         return res.status(500).send(error)
     }
 })
 
 // get request to get the students by collegecode from db
-router.get('/students/:collegecode', async(req,res) => {
+router.get('/students/:collegecode', async (req, res) => {
     try {
-        const collegecodestudents = await studentsdata.find({CollegeCode: req.params.collegecode})
-        if(collegecodestudents.length > 0) {
+        const collegecodestudents = await studentsdata.find({ CollegeCode: req.params.collegecode })
+        if (collegecodestudents.length > 0) {
             console.log(collegecodestudents)
             return res.status(200).send(collegecodestudents)
         }
         else {
-            return res.status(404).send("Student Not Found in "+req.params.year)
+            return res.status(404).send("Student Searched by College Code Not Found in " + req.params.collegecode)
         }
     }
-    catch(error) { // if database error comes
+    catch (error) { // if database error comes
         console.log(error)
         return res.status(500).send(error)
     }
 })
 
 // get request to get the students by department from db
-router.get('/students/:department', async(req,res) => {
+router.get('/students/:department', async (req, res) => {
     try {
-        const departmentstudents = await studentsdata.find({Department: req.params.department})
-        if(departmentstudents.length > 0) {
+        const departmentstudents = await studentsdata.find({ Department: req.params.department })
+        if (departmentstudents.length > 0) {
             console.log(departmentstudents)
             return res.status(200).send(departmentstudents)
         }
         else {
-            return res.status(404).send("Student Not Found in "+req.params.department)
+            return res.status(404).send("Student Not Found in " + req.params.department)
         }
     }
-    catch(error) { // if database error comes
+    catch (error) { // if database error comes
         console.log(error)
         return res.status(500).send(error)
     }
 })
 
 // get request to get the students by year, dept and section from db
-router.get('/students/:year/:section/:department', async(req,res) => {
+router.get('/students/:year/:section/:department', async (req, res) => {
     try {
-        const studentss = await studentsdata.find({Year: req.params.year, Department: req.params.department, Section: req.params.section})
-        if(studentss.length > 0) {
+        const studentss = await studentsdata.find({ Year: req.params.year, Department: req.params.department, Section: req.params.section })
+        if (studentss.length > 0) {
             console.log(studentss)
             return res.status(200).send(studentss)
         }
@@ -207,7 +244,7 @@ router.get('/students/:year/:section/:department', async(req,res) => {
             return res.status(404).send("No Student Data Found")
         }
     }
-    catch(error) { // if database error comes
+    catch (error) { // if database error comes
         console.log(error)
         return res.status(500).send(error)
     }
