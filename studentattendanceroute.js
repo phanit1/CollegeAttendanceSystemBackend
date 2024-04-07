@@ -58,6 +58,7 @@ router.get('/', async (req, res) => {
             "<h2>To update student information, use /students/:pinnumber with a PUT request</h2><br>" +
             "<h2>To delete a student, use /students/:pinnumber with a DELETE request</h2><br>" +
             "<h2>If you want to get all students data, use /students</h2><br>" +
+            "<h2>To get students by year, use /students/:pinno</h2><br>" +
             "<h2>To get students by year, use /students/:year</h2><br>" +
             "<h2>To get students by college code, use /students/:collegecode</h2><br>" +
             "<h2>To get students by department, use /students/:department</h2><br>" +
