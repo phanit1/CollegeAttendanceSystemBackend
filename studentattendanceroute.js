@@ -178,6 +178,25 @@ router.get('/students', async (req, res) => {
     }
 })
 
+// get request to get the students by pinno from db
+router.get('/students/:pinno', async (req, res) => {
+    try {
+        const pinnostudents = await studentsdata.find({ PinNumber: req.params.pinno })
+        if (pinnostudents.length > 0) {
+            console.log(pinnostudents)
+            return res.status(200).send(pinnostudents)
+        }
+        else {
+            return res.status(404).send("Student Searched by pinno Not Found in " + req.params.year)
+        }
+    }
+    catch (error) { // if database error comes
+        console.log(error)
+        return res.status(500).send(error)
+    }
+})
+
+
 // get request to get the students by year from db
 router.get('/students/:year', async (req, res) => {
     try {
