@@ -45,7 +45,7 @@ const studentsattendancereportdata = require('./studentattendancereport')
 
 // Twilio credentials
 const accountSid = 'AC0ca62b75da323655d6446a18295e6f59';
-const authToken = '307dcd942bc885f8d74c441d605a0289';
+const authToken = '394e30484987a01433a62b7d962a1e20';
 const twilioPhoneNumber = '+1 720 262 2359';
 const client = twilio(accountSid, authToken);
 
