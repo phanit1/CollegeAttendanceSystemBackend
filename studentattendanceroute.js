@@ -284,11 +284,14 @@ router.post('/poststudentsattendance', async (req, res) => {
                 const user1 = studentuser[index];
                 user.PinNumber = user1.PinNumber;
                 user.AttendanceStatus = user1.AttendanceStatus;
-                user.Date = user1.Date;
+                var year = user1.Date.getFullYear();
+                var mes = user1.Date.getMonth() + 1;
+                var dia = user1.Date.getDate();
+                user.Date = dia + "-" + mes + "-" + year;
                 console.log(user, "user")
                 if (user.AttendanceStatus == false) {
                     const message = await client.messages.create({
-                        body: `Dear Parent, Your Son ${studentrequestdata.StudentName} have been marked as absent today on ${user.Date}. Please contact Principal/HOD for further information.`,
+                        body: `Dear Parent, Your Son ${studentrequestdata.StudentName} have been marked as absent today on ${user.Date.toString()}. Please contact Principal/HOD for further information.`,
                         from: twilioPhoneNumber,
                         to: "+917893434970"
                     });
@@ -299,7 +302,7 @@ router.post('/poststudentsattendance', async (req, res) => {
                     console.log(`${studentrequestdata.StudentName} marked as present.`)
                     // return res.status(200).send("Student marked as present.")
                 }
-                user.save();
+                // user.save();
             }
             else {
                 console.log("User Already Exists")
